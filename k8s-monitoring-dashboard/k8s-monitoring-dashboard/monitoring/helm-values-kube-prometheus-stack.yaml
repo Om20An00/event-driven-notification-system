@@ -1,0 +1,58 @@
+# Install with:
+#   helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+#   helm repo update
+#   helm install kube-prometheus-stack prometheus-community/kube-prometheus-stack \
+#     -n monitoring --create-namespace \
+#     -f monitoring/helm-values-kube-prometheus-stack.yaml
+#
+# This single chart gives you, out of the box:
+#   - Prometheus            (metrics storage + alert evaluation)
+#   - Alertmanager          (alert routing/notification)
+#   - Grafana               (dashboards)
+#   - kube-state-metrics    (cluster object state: pods, deployments, nodes...)
+#   - node-exporter         (per-node CPU/memory/disk metrics)
+#
+# kube-state-metrics + node-exporter are what feed the "Cluster Health"
+# dashboard; this app's own /actuator/prometheus feeds the application
+# panels on the "Pod Monitoring" dashboard.
+
+grafana:
+  enabled: true
+  adminPassword: "changeme"   # change this before doing anything beyond a local demo
+  defaultDashboardsEnabled: true
+
+prometheus:
+  prometheusSpec:
+    # Basic/demo setting: pick up ServiceMonitors and PrometheusRules from
+    # ANY namespace, not just ones with a matching label. Tighten this in
+    # a real environment by using serviceMonitorSelector/ruleSelector with
+    # matchLabels instead.
+    serviceMonitorSelectorNilUsesHelmValues: false
+    ruleSelectorNilUsesHelmValues: false
+    serviceMonitorSelector: {}
+    ruleSelector: {}
+    serviceMonitorNamespaceSelector: {}
+    ruleNamespaceSelector: {}
+    retention: 6h
+
+alertmanager:
+  enabled: true
+  # By default this just uses the chart's built-in receiver (no real
+  # notification channel configured). To actually get notified, add a
+  # receiver here, e.g. Slack:
+  #
+  # config:
+  #   route:
+  #     receiver: 'slack-notifications'
+  #   receivers:
+  #     - name: 'slack-notifications'
+  #       slack_configs:
+  #         - api_url: 'https://hooks.slack.com/services/XXX/YYY/ZZZ'
+  #           channel: '#alerts'
+  #           send_resolved: true
+
+kubeStateMetrics:
+  enabled: true
+
+nodeExporter:
+  enabled: true

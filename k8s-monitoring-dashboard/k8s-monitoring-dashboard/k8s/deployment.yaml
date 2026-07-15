@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: k8s-monitor-app
+  namespace: k8s-monitor
+  labels:
+    app: k8s-monitor-app
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: k8s-monitor-app
+  template:
+    metadata:
+      labels:
+        app: k8s-monitor-app
+      annotations:
+        # Fallback for a plain Prometheus install (no Operator/ServiceMonitor).
+        # If you're using kube-prometheus-stack with the ServiceMonitor in
+        # servicemonitor.yaml, these annotations are unused but harmless.
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "8080"
+        prometheus.io/path: "/actuator/prometheus"
+    spec:
+      containers:
+        - name: k8s-monitor-app
+          # Replace with your image, e.g. docker.io/<your-dockerhub-username>/k8s-monitor-app:1.0.0
+          image: <YOUR_DOCKERHUB_USERNAME>/k8s-monitor-app:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8080
+              name: http
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "256Mi"
+            limits:
+              cpu: "500m"
+              memory: "512Mi"
+          readinessProbe:
+            httpGet:
+              path: /actuator/health/readiness
+              port: 8080
+            initialDelaySeconds: 15
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /actuator/health/liveness
+              port: 8080
+            initialDelaySeconds: 20
+            periodSeconds: 15

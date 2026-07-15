@@ -1,0 +1,56 @@
+# Local quickstart — runs the app + Prometheus + Grafana on your machine
+# WITHOUT needing a real Kubernetes cluster. Good for verifying the metrics
+# pipeline end-to-end and recording a demo before doing the full K8s deploy.
+#
+# NOTE: cluster-level panels (node count, kube-state-metrics, node-exporter
+# data) will be empty here since there's no real cluster — only the
+# application-level metrics (orders_created_total, request rate, latency,
+# etc.) will populate. Deploy to a real K8s cluster with kube-prometheus-stack
+# (see ../monitoring/) to see the full Cluster Health dashboard.
+#
+# Usage:
+#   cd local-dev
+#   docker compose up --build
+#   curl -X POST http://localhost:8080/api/load/100   # generate sample traffic
+#   open http://localhost:3000  (Grafana, admin/admin)
+#   open http://localhost:9090  (Prometheus)
+
+services:
+  app:
+    build:
+      context: ../app
+    ports:
+      - "8080:8080"
+    networks:
+      - monitor-net
+
+  prometheus:
+    image: prom/prometheus:v2.53.0
+    volumes:
+      - ./prometheus-local.yml:/etc/prometheus/prometheus.yml:ro
+    ports:
+      - "9090:9090"
+    networks:
+      - monitor-net
+    depends_on:
+      - app
+
+  grafana:
+    image: grafana/grafana:11.1.0
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+      - GF_SECURITY_ADMIN_USER=admin
+    volumes:
+      - ../grafana-dashboards:/var/lib/grafana/dashboards:ro
+      - ./grafana-provisioning/datasources:/etc/grafana/provisioning/datasources:ro
+      - ./grafana-provisioning/dashboards:/etc/grafana/provisioning/dashboards:ro
+    networks:
+      - monitor-net
+    depends_on:
+      - prometheus
+
+networks:
+  monitor-net:
+    driver: bridge

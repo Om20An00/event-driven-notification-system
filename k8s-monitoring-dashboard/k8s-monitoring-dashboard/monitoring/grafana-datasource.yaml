@@ -1,0 +1,11 @@
+# Only needed if you installed Prometheus + Grafana separately rather than
+# via the kube-prometheus-stack Helm chart (which auto-wires this datasource
+# for you). Mount this into Grafana at /etc/grafana/provisioning/datasources/.
+apiVersion: 1
+datasources:
+  - name: Prometheus
+    type: prometheus
+    access: proxy
+    url: http://prometheus-operated.monitoring.svc:9090
+    isDefault: true
+    editable: true
