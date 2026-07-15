@@ -178,7 +178,7 @@ Pair it with the companion **[Kubernetes-Monitoring-Dashboard](https://github.co
 
 </div>
 
-> 📝 The captions above are my best guess at what each screenshot shows based on your workflow — rename them in the table headers to match exactly once you review the rendered README on GitHub.
+
 
 ---
 
