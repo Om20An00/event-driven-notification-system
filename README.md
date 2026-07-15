@@ -156,6 +156,32 @@ Pair it with the companion **[Kubernetes-Monitoring-Dashboard](https://github.co
 
 ---
 
+## 📸 Screenshots
+
+<div align="center">
+
+| Prometheus Targets | Grafna Login |
+|:---:|:---:|
+| <img src="https://raw.githubusercontent.com/Om20An00/event-driven-notification-system/b2935186ad90581fc658b0885f52c8cd31e9b988/notification-system/Screenshot%20(557).png" width="400"/> | <img src="https://raw.githubusercontent.com/Om20An00/event-driven-notification-system/b2935186ad90581fc658b0885f52c8cd31e9b988/notification-system/Screenshot%20(558).png" width="400"/> |
+
+| Dashboard | Actuator / Prometheus Endpoint |
+|:---:|:---:|
+| <img src="https://raw.githubusercontent.com/Om20An00/event-driven-notification-system/b2935186ad90581fc658b0885f52c8cd31e9b988/notification-system/Screenshot%20(559).png" width="400"/> | <img src="https://raw.githubusercontent.com/Om20An00/event-driven-notification-system/b2935186ad90581fc658b0885f52c8cd31e9b988/notification-system/Screenshot%20(561).png" width="400"/> |
+
+| Prometheus Query Explorer | Grafana Dashboard — Metrics Panel |
+|:---:|:---:|
+| <img src="https://raw.githubusercontent.com/Om20An00/event-driven-notification-system/b2935186ad90581fc658b0885f52c8cd31e9b988/notification-system/Screenshot%20(562).png" width="400"/> | <img src="https://raw.githubusercontent.com/Om20An00/event-driven-notification-system/b2935186ad90581fc658b0885f52c8cd31e9b988/notification-system/Screenshot%20(563).png" width="400"/> |
+
+| Grafana Dashboard — Full View |
+|:---:|
+| <img src="https://raw.githubusercontent.com/Om20An00/event-driven-notification-system/b2935186ad90581fc658b0885f52c8cd31e9b988/notification-system/Screenshot%20(564).png" width="820"/> |
+
+</div>
+
+> 📝 The captions above are my best guess at what each screenshot shows based on your workflow — rename them in the table headers to match exactly once you review the rendered README on GitHub.
+
+---
+
 ## ☸️ Kubernetes (Manifests Included)
 
 Manifests are provided under `k8s/` as a starting point for horizontal scaling — they are **not deployed by default**:
