@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Notification System</title>
+<style>
+  :root {
+    --bg: #0f1115;
+    --card: #171a21;
+    --border: #2a2e38;
+    --text: #e6e8eb;
+    --muted: #9aa0ab;
+    --accent: #5b8def;
+    --success: #3ecf8e;
+    --error: #ef5b5b;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    display: flex;
+    justify-content: center;
+    padding: 40px 20px;
+  }
+  .container { width: 100%; max-width: 640px; }
+  h1 { font-size: 22px; margin-bottom: 4px; }
+  .subtitle { color: var(--muted); font-size: 14px; margin-bottom: 28px; }
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 24px;
+    margin-bottom: 20px;
+  }
+  .card h2 { font-size: 15px; margin: 0 0 16px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; }
+  label { display: block; font-size: 13px; color: var(--muted); margin-bottom: 6px; margin-top: 14px; }
+  label:first-of-type { margin-top: 0; }
+  select, input, textarea {
+    width: 100%;
+    background: #0f1115;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 10px 12px;
+    color: var(--text);
+    font-size: 14px;
+    font-family: inherit;
+  }
+  textarea { resize: vertical; min-height: 70px; }
+  button {
+    margin-top: 20px;
+    width: 100%;
+    background: var(--accent);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 12px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  button:hover { opacity: 0.9; }
+  button:disabled { opacity: 0.5; cursor: not-allowed; }
+  .log {
+    max-height: 300px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .log-entry {
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 10px 12px;
+    font-size: 13px;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 12px;
+  }
+  .log-entry.success { border-left: 3px solid var(--success); }
+  .log-entry.error { border-left: 3px solid var(--error); }
+  .log-entry .meta { color: var(--muted); font-size: 12px; white-space: nowrap; }
+  .log-empty { color: var(--muted); font-size: 13px; text-align: center; padding: 20px 0; }
+  .badge {
+    display: inline-block;
+    font-size: 11px;
+    padding: 2px 8px;
+    border-radius: 10px;
+    background: rgba(91, 141, 239, 0.15);
+    color: var(--accent);
+    margin-right: 8px;
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>Event-Driven Notification System</h1>
+  <div class="subtitle">Submits to the REST API &rarr; publishes to Kafka &rarr; consumer dispatches by channel</div>
+
+  <div class="card">
+    <h2>Send a Notification</h2>
+    <form id="notif-form">
+      <label for="type">Channel</label>
+      <select id="type">
+        <option value="EMAIL">Email</option>
+        <option value="SMS">SMS</option>
+        <option value="PUSH">Push</option>
+      </select>
+
+      <label for="recipient">Recipient</label>
+      <input id="recipient" type="text" placeholder="user@example.com" required>
+
+      <label for="subject">Subject</label>
+      <input id="subject" type="text" placeholder="Welcome!">
+
+      <label for="message">Message</label>
+      <textarea id="message" placeholder="Thanks for signing up." required></textarea>
+
+      <button type="submit" id="submit-btn">Send Notification</button>
+    </form>
+  </div>
+
+  <div class="card">
+    <h2>Recent Submissions</h2>
+    <div class="log" id="log">
+      <div class="log-empty">No notifications sent yet in this session.</div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const form = document.getElementById('notif-form');
+  const logEl = document.getElementById('log');
+  const submitBtn = document.getElementById('submit-btn');
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Sending...';
+
+    const payload = {
+      type: document.getElementById('type').value,
+      recipient: document.getElementById('recipient').value,
+      subject: document.getElementById('subject').value,
+      message: document.getElementById('message').value
+    };
+
+    try {
+      const res = await fetch('/api/notifications', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      const data = await res.json();
+
+      if (res.ok) {
+        addLogEntry(true, `${payload.type} to ${payload.recipient}`, `eventId: ${data.eventId}`);
+      } else {
+        const errMsg = data.error || Object.values(data).join(', ') || 'Request failed';
+        addLogEntry(false, `${payload.type} to ${payload.recipient}`, errMsg);
+      }
+    } catch (err) {
+      addLogEntry(false, `${payload.type} to ${payload.recipient}`, 'Network error: ' + err.message);
+    } finally {
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Send Notification';
+    }
+  });
+
+  function addLogEntry(success, title, detail) {
+    const empty = logEl.querySelector('.log-empty');
+    if (empty) empty.remove();
+
+    const entry = document.createElement('div');
+    entry.className = 'log-entry ' + (success ? 'success' : 'error');
+
+    const left = document.createElement('div');
+    left.innerHTML = `<span class="badge">${success ? 'QUEUED' : 'FAILED'}</span>${title}<div style="color:var(--muted);margin-top:4px;font-size:12px;">${detail}</div>`;
+
+    const time = document.createElement('div');
+    time.className = 'meta';
+    time.textContent = new Date().toLocaleTimeString();
+
+    entry.appendChild(left);
+    entry.appendChild(time);
+    logEl.prepend(entry);
+  }
+</script>
+</body>
+</html>

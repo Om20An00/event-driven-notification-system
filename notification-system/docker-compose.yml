@@ -45,6 +45,9 @@ services:
       - "8082:8080"
     environment:
       KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+      EMAIL_ENABLED: ${EMAIL_ENABLED:-false}
+      GMAIL_USERNAME: ${GMAIL_USERNAME:-}
+      GMAIL_APP_PASSWORD: ${GMAIL_APP_PASSWORD:-}
     depends_on:
       kafka:
         condition: service_healthy
