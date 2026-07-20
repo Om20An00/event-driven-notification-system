@@ -15,11 +15,15 @@
 ![Kubernetes](https://img.shields.io/badge/Kubernetes-Manifests-326CE5?style=for-the-badge&logo=kubernetes&logoColor=white)
 ![Prometheus](https://img.shields.io/badge/Prometheus-Metrics-E6522C?style=for-the-badge&logo=prometheus&logoColor=white)
 ![Grafana](https://img.shields.io/badge/Grafana-Dashboards-F46800?style=for-the-badge&logo=grafana&logoColor=white)
+![AWS EC2](https://img.shields.io/badge/AWS%20EC2-Live%20Deployment-FF9900?style=for-the-badge&logo=amazonaws&logoColor=white)
 
 ![GitHub repo size](https://img.shields.io/github/repo-size/Om20An00/event-driven-notification-system?style=flat-square&color=blueviolet)
 ![GitHub last commit](https://img.shields.io/github/last-commit/Om20An00/event-driven-notification-system?style=flat-square&color=blueviolet)
 ![GitHub stars](https://img.shields.io/github/stars/Om20An00/event-driven-notification-system?style=flat-square&color=gold)
 ![License](https://img.shields.io/badge/license-MIT-green?style=flat-square)
+
+
+### 🔗 [**Live Demo — http://13.50.242.12:8082/**](http://13.50.242.12:8082/)
 
 </div>
 
@@ -73,7 +77,7 @@ flowchart LR
 ## 🛠️ Tech Stack
 
 <div align="center">
-
+  
 ![Java](https://skillicons.dev/icons?i=java)
 ![Spring](https://skillicons.dev/icons?i=spring)
 ![Kafka](https://skillicons.dev/icons?i=kafka)
@@ -82,6 +86,7 @@ flowchart LR
 ![Maven](https://skillicons.dev/icons?i=maven)
 ![Grafana](https://skillicons.dev/icons?i=grafana)
 ![Prometheus](https://skillicons.dev/icons?i=prometheus)
+![AWS](https://skillicons.dev/icons?i=aws)
 
 </div>
 
@@ -155,6 +160,29 @@ Pair it with the companion **[Kubernetes-Monitoring-Dashboard](https://github.co
 - GC pause time
 
 ---
+
+---
+
+## ☁️ Live Deployment — AWS EC2
+
+The `notification-system` service (Kafka + Kafka UI + the Spring Boot app) is deployed via Docker Compose on a live AWS EC2 instance:
+
+**🔗 Live URL:** [http://13.50.242.12:8082/](http://13.50.242.12:8082/)
+
+Open the link, submit a notification through the form — it hits a real Kafka broker running on the instance, and a real email is dispatched for `EMAIL` type notifications.
+
+| Detail | Value |
+|---|---|
+| **Instance** | AWS EC2 `t3.micro`, Ubuntu 24.04 LTS |
+| **Orchestration** | Docker Compose (Kafka in KRaft mode, Kafka UI, Spring Boot app) |
+| **Email delivery** | Real Gmail SMTP dispatch, wired via app-specific credentials |
+| **Security** | SSH restricted to a fixed IP; only the app port (`8082`) is public — Kafka and Kafka UI are not exposed |
+| **Cost** | Kept entirely within AWS free tier, with a zero-spend billing alert configured |
+
+> Note: this is a single free-tier instance meant for demo/review purposes, running over plain HTTP — not a production SLA.
+
+---
+
 
 ## 📸 Screenshots
 
