@@ -188,21 +188,21 @@ Open the link, submit a notification through the form — it hits a real Kafka b
 
 <div align="center">
 
-| Prometheus Targets | Grafna Login |
+| Live Homepage — AWS EC2 | Prometheus Targets |
 |:---:|:---:|
-| <img src="https://raw.githubusercontent.com/Om20An00/event-driven-notification-system/b2935186ad90581fc658b0885f52c8cd31e9b988/notification-system/Screenshot%20(557).png" width="400"/> | <img src="https://raw.githubusercontent.com/Om20An00/event-driven-notification-system/b2935186ad90581fc658b0885f52c8cd31e9b988/notification-system/Screenshot%20(558).png" width="400"/> |
+| <img src="https://raw.githubusercontent.com/Om20An00/event-driven-notification-system/0dcec5db92f4294b1a9f4875bbcf153a1e753dc2/notification-system/Screenshot%20(565).png" width="400"/> | <img src="https://raw.githubusercontent.com/Om20An00/event-driven-notification-system/b2935186ad90581fc658b0885f52c8cd31e9b988/notification-system/Screenshot%20(557).png" width="400"/> |
 
-| Dashboard | Actuator / Prometheus Endpoint |
+| Grafna Login | Dashboard |
 |:---:|:---:|
-| <img src="https://raw.githubusercontent.com/Om20An00/event-driven-notification-system/b2935186ad90581fc658b0885f52c8cd31e9b988/notification-system/Screenshot%20(559).png" width="400"/> | <img src="https://raw.githubusercontent.com/Om20An00/event-driven-notification-system/b2935186ad90581fc658b0885f52c8cd31e9b988/notification-system/Screenshot%20(561).png" width="400"/> |
+| <img src="https://raw.githubusercontent.com/Om20An00/event-driven-notification-system/b2935186ad90581fc658b0885f52c8cd31e9b988/notification-system/Screenshot%20(558).png" width="400"/> | <img src="https://raw.githubusercontent.com/Om20An00/event-driven-notification-system/b2935186ad90581fc658b0885f52c8cd31e9b988/notification-system/Screenshot%20(559).png" width="400"/> |
 
-| Prometheus Query Explorer | Grafana Dashboard — Metrics Panel |
+| Actuator / Prometheus Endpoint | Prometheus Query Explorer |
 |:---:|:---:|
-| <img src="https://raw.githubusercontent.com/Om20An00/event-driven-notification-system/b2935186ad90581fc658b0885f52c8cd31e9b988/notification-system/Screenshot%20(562).png" width="400"/> | <img src="https://raw.githubusercontent.com/Om20An00/event-driven-notification-system/b2935186ad90581fc658b0885f52c8cd31e9b988/notification-system/Screenshot%20(563).png" width="400"/> |
+| <img src="https://raw.githubusercontent.com/Om20An00/event-driven-notification-system/b2935186ad90581fc658b0885f52c8cd31e9b988/notification-system/Screenshot%20(561).png" width="400"/> | <img src="https://raw.githubusercontent.com/Om20An00/event-driven-notification-system/b2935186ad90581fc658b0885f52c8cd31e9b988/notification-system/Screenshot%20(562).png" width="400"/> |
 
-| Grafana Dashboard — Full View |
-|:---:|
-| <img src="https://raw.githubusercontent.com/Om20An00/event-driven-notification-system/b2935186ad90581fc658b0885f52c8cd31e9b988/notification-system/Screenshot%20(564).png" width="820"/> |
+| Grafana Dashboard — Metrics Panel | Grafana Dashboard — Full View |
+|:---:|:---:|
+| <img src="https://raw.githubusercontent.com/Om20An00/event-driven-notification-system/b2935186ad90581fc658b0885f52c8cd31e9b988/notification-system/Screenshot%20(563).png" width="400"/> | <img src="https://raw.githubusercontent.com/Om20An00/event-driven-notification-system/b2935186ad90581fc658b0885f52c8cd31e9b988/notification-system/Screenshot%20(564).png" width="400"/> |
 
 </div>
 
